@@ -18,5 +18,8 @@ This plugin will use your local environment to compile Rust application to AWS L
 
 ## Use
 
+Add "@sufrago/rust-musl-serverless" plugin to your serverless yaml.
+
+
 serverless deploy 
 
