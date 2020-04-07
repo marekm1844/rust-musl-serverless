@@ -1,0 +1,25 @@
+{
+  "name": "@sufrago/rust-musl-serverless",
+  "version": "1.0.0",
+  "description": "Deploy Rust application using local complier and  musl target",
+  "main": "rust-musl-serverless.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marekm1844/rust-musl-serverless.git"
+  },
+  "keywords": [
+    "Rust",
+    "Lambda",
+    "musl",
+    "serverless"
+  ],
+  "author": "Marek Majdak",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marekm1844/rust-musl-serverless/issues"
+  },
+  "homepage": "https://github.com/marekm1844/rust-musl-serverless#readme"
+}
