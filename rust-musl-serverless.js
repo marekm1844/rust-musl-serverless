@@ -10,8 +10,10 @@ const {
 const {
     homedir
 } = require("os");
+var fs = require('fs');
 const path = require("path");
 const util = require('util');
+var AdmZip = require('adm-zip');
 
 
 const RUST_RUNTIME = "rust";
@@ -84,21 +86,35 @@ class RustPlugin {
         const targetPath = `target/x86_64-unknown-linux-musl/${"dev" === profile ? "debug" : "release"}`;
         const binPath = path.join(targetPath, binary);
 
-        spawnSync(
-            "cp",
-            [binPath, `${targetPath}/bootstrap`], NO_OUTPUT_CAPTURE);
+        // spawnSync(
+        //     "cp",
+        //     [binPath, `${targetPath}/bootstrap`], NO_OUTPUT_CAPTURE);
 
-        this.serverless.cli.log(`Will write ${targetPath}/bootstrap files to ${binPath}.zip`);
+        // this.serverless.cli.log(`Will write ${targetPath}/bootstrap files to ${binPath}.zip`);
 
-        const zipResults = spawnSync('/usr/bin/zip', ['-j', `${binPath}.zip`, `${targetPath}/bootstrap`], NO_OUTPUT_CAPTURE);
-        if (zipResults.status != 0) {
-            this.serverless.cli.log(`Error while running "zip":`);
-            this.serverless.cli.log(util.inspect(zipResults))
-            return;
-        }
-        this.serverless.cli.log(zipResults.stdout);
+        // const zipResults = spawnSync('/usr/bin/zip', ['-j', `${binPath}.zip`, `${targetPath}/bootstrap`], NO_OUTPUT_CAPTURE);
+        // if (zipResults.status != 0) {
+        //     this.serverless.cli.log(`Error while running "zip":`);
+        //     this.serverless.cli.log(util.inspect(zipResults))
+        //     return;
+        // }
 
-        return zipResults;
+        let res = {
+            error: null
+        };
+
+        let zip = new AdmZip();
+        zip.addFile("bootstrap", fs.readFileSync(binPath), '', '755')
+        zip.writeZip(`${binPath}.zip`, (error) => {
+            if (error) {
+                res.error = error
+                return;
+            }
+        });
+
+        this.serverless.cli.log(zip.getEntries());
+
+        return res;
     }
 
 
@@ -134,9 +150,9 @@ class RustPlugin {
             }
 
             const zipResult = this.renameBin(profile, binary)
-            if (zipResult.error || zipResult.status > 0) {
+            if (zipResult.error) {
                 this.serverless.cli.log(
-                    `Package rust binary failed: ${zipResult.error} ${zipResult.status}.`
+                    `Package rust binary failed: ${zipResult.error}.`
                 );
                 throw new Error(res.error);
             }

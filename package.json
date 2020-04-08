@@ -1,6 +1,6 @@
 {
   "name": "@sufrago/rust-musl-serverless",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Deploy Rust application using local complier and  musl target",
   "main": "rust-musl-serverless.js",
   "scripts": {
@@ -21,5 +21,11 @@
   "bugs": {
     "url": "https://github.com/marekm1844/rust-musl-serverless/issues"
   },
-  "homepage": "https://github.com/marekm1844/rust-musl-serverless#readme"
+  "homepage": "https://github.com/marekm1844/rust-musl-serverless#readme",
+  "bundledDependencies": [
+    "adm-zip"
+  ],
+  "dependencies": {
+    "adm-zip": "^0.4.14"
+  }
 }
