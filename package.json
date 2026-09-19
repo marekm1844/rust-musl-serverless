@@ -26,6 +26,6 @@
     "adm-zip"
   ],
   "dependencies": {
-    "adm-zip": "^0.4.14"
+    "adm-zip": "^0.6.1"
   }
 }
